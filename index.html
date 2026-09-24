@@ -506,11 +506,15 @@
         border: 1px solid transparent;
         border-radius: var(--radius-medium);
         pointer-events: none;
-        transform: translateX(-50%);
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+        will-change: transform;
         transition:
           background var(--transition-medium),
           border-color var(--transition-medium),
-          box-shadow var(--transition-medium);
+          box-shadow var(--transition-medium),
+          transform var(--transition-medium),
+          opacity var(--transition-medium);
       }
 
       .site-nav > * {
@@ -522,6 +526,12 @@
         background: rgba(10, 12, 16, 0.88);
         box-shadow: 0 18px 70px rgba(0, 0, 0, 0.36);
         backdrop-filter: blur(18px);
+      }
+
+      .site-nav.is-hidden {
+        transform: translateX(-50%) translateY(-140%);
+        opacity: 0;
+        pointer-events: none;
       }
 
       .brand-lockup {
@@ -7381,8 +7391,8 @@
 <img alt="" aria-hidden="true" src="data:image/png;base64,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"/>
 </span>
 <span class="brand-lockup__copy">
-<strong>WANDS</strong>
-<span>POLARIS</span>
+<strong data-i18n="nav.brand_wands">WANDS</strong>
+<span data-i18n="nav.brand_polaris">POLARIS</span>
 </span>
 </button>
 <div aria-label="ناوبری بخش‌ها" class="desktop-nav" data-i18n-attr="aria-label:nav.section_navigation">
@@ -7542,7 +7552,7 @@
 <div class="section-heading__index">02 / POLARIS</div>
 <h2 data-i18n="polaris.one_organization">
                 یک ساختار،
-                <em data-i18n="polaris.many_technical_disciplines">چندین تخصص فنی.</em>
+                <em data-i18n="polaris.many_technical_disciplines">چندین تخصص فنی</em>
 </h2>
 <p data-i18n="polaris.organization_overview">Polaris یک مجموعه نرم‌افزاری و فناوری است که تیم‌های تخصصی را برای اجرای پروژه‌ها در کنار هم قرار می‌دهد. هر تیم بر اساس حوزه و نیاز پروژه فعالیت می‌کند.</p>
 </div>
@@ -7635,7 +7645,7 @@
 <div class="section-heading__index">04 / TEAM</div>
 <h2 data-i18n="team.five_wands">
                 پنج Wands،
-                <em data-i18n="team.each_held_by_a_working">هرکدام در دست یک پروفایل کاری.</em>
+                <em data-i18n="team.each_held_by_a_working">هرکدام در دست یک پروفایل کاری</em>
 </h2>
 <p data-i18n="team.members_overview">اعضای Wands هرکدام در یک حوزه تخصص دارند و در کنار یکدیگر پروژه‌های تیم را پیش می‌برند.</p>
 </div>
@@ -7781,7 +7791,7 @@
               </div>
 <h2 data-i18n="projects.four_products">
                 سه پروژه،
-                <em data-i18n="projects.four_different_system_problems">سه مسئله‌ی متفاوت.</em>
+                <em data-i18n="projects.four_different_system_problems">سه مسئله‌ی متفاوت</em>
 </h2>
 <p data-i18n="projects.coders_site_astroseeingai_learning_c">بخشی از پروژه‌هایی که توسط اعضای Wands طراحی و توسعه داده شده‌اند.</p>
 </div>
@@ -7799,7 +7809,7 @@
 <div>
 <small>CODERS SITE</small>
 <h3 data-i18n="projects.coders.a_learning_management_system_built">
-                      یک سیستم مدیریت یادگیری بر پایه‌ی Django.
+                      یک سیستم مدیریت یادگیری بر پایه‌ی Django
                     </h3>
 </div>
 <p data-i18n="projects.coders.coders_site_is_a_complete">Coders Site یک سیستم مدیریت یادگیری بر پایه Django است.</p>
@@ -7833,7 +7843,7 @@
 <div>
 <small>ASTROSEEINGAI</small>
 <h3 data-i18n="projects.astro.an_astronomical_seeing_prediction_fr">
-                      یک چارچوب پیش‌بینی دید نجومی (Seeing) بر پایه‌ی XGBoost.
+                      یک چارچوب پیش‌بینی دید نجومی (Seeing) بر پایه‌ی XGBoost
                     </h3>
 </div>
 <p data-i18n="projects.astro.astroseeingai_is_a_machine_learning">AstroSeeingAI یک پروژه یادگیری ماشین برای پیش‌بینی دید نجومی با XGBoost است.</p>
@@ -7912,7 +7922,7 @@
 <div>
 <small>FUZZY HEALTH</small>
 <h3 data-i18n="projects.fuzzy.a_health_assessment_system_built">
-                      یک سیستم ارزیابی سلامت بر پایه‌ی Python و منطق فازی.
+                      یک سیستم ارزیابی سلامت بر پایه‌ی Python و منطق فازی
                     </h3>
 </div>
 <p data-i18n="projects.fuzzy.a_data_driven_health_assessment">Fuzzy Health یک سیستم ارزیابی سلامت بر پایه Python، داده‌های BRFSS و منطق فازی است.</p>
@@ -8110,7 +8120,7 @@
 <div class="closing-copy">
 <small>WANDS / POLARIS</small>
 <h2 data-i18n="closing.ideas_are_easy_to_describe">
-                ساختن، بخش اصلی کار ماست.
+                ساختن، بخش اصلی کار ماست
                 <em data-i18n="closing.the_system_still_has_to"></em>
 </h2>
 <p data-i18n="closing.wands_stays_close_to_architecture">
@@ -8187,6 +8197,8 @@
             "nav.team": "تیم",
             "nav.projects": "پروژه‌ها",
             "nav.view_projects": "مشاهده پروژه‌ها",
+            "nav.brand_wands": "WANDS",
+            "nav.brand_polaris": "POLARIS",
             /* ── menu ── */
             "menu.polaris_wands_navigation": "WANDS / POLARIS — ناوبری",
             "menu.home": "خانه",
@@ -8222,7 +8234,7 @@
             "marquee.service_integration": "یکپارچه‌سازی سرویس‌ها",
             /* ── polaris ── */
             "polaris.one_organization": "Polaris چیست؟",
-            "polaris.many_technical_disciplines": "یک ساختار برای همکاری تیم‌های تخصصی.",
+            "polaris.many_technical_disciplines": "یک ساختار برای همکاری تیم‌های تخصصی",
             "polaris.polaris_brings_software_specialists_": "Polaris تیم‌های تخصصی مختلف را برای اجرای پروژه‌ها در کنار یکدیگر قرار می‌دهد؛ ترکیب تیم و ابزارهای فنی بر اساس نیاز هر پروژه شکل می‌گیرد.",
             "polaris.how_it_works": "روش کار",
             "polaris.defined_roles_shared_expertise":
@@ -8332,7 +8344,7 @@
               "در کنار توانایی فنی، حل مسئله، ارتباط، مسئولیت‌پذیری، کار تیمی و سرعت یادگیری هم اهمیت دارند. اعضا باید تصمیم‌هایشان را توضیح دهند، مشکلات را زود آشکار کنند و مسئولیت نتیجه‌ی قابل استفاده را بپذیرند.",
             /* ── team ── */
             "team.five_wands": "تیم Wands",
-            "team.each_held_by_a_working": "متخصصانی با تمرکزهای مختلف، در کنار یکدیگر.",
+            "team.each_held_by_a_working": "متخصصانی با تمرکزهای مختلف، در کنار یکدیگر",
             "team.the_suit_is_no_longer":
               "",
             "team.xiii_queen_of_wands": "XIII — QUEEN OF WANDS",
@@ -8358,13 +8370,13 @@
             /* ── projects ── */
             "projects.05_real_projects": "05 / پروژه‌ها",
             "projects.four_products": "سه پروژه،",
-            "projects.four_different_system_problems": "سه مسئله‌ی متفاوت.",
+            "projects.four_different_system_problems": "سه مسئله‌ی متفاوت",
             "projects.coders_site_astroseeingai_learning_c": "بخشی از پروژه‌هایی که توسط اعضای Wands طراحی و توسعه داده شده‌اند.",
             /* ── projects.coders ── */
             "projects.coders.01_real_project": "01 / پروژه",
             "projects.coders.learning_platform": "پلتفرم آموزشی",
             "projects.coders.owner_mohamad_karimi": "مالک / mohamad-karimi",
-            "projects.coders.a_learning_management_system_built": "یک سیستم مدیریت یادگیری مبتنی بر Django و Python.",
+            "projects.coders.a_learning_management_system_built": "یک سیستم مدیریت یادگیری مبتنی بر Django و Python",
             "projects.coders.coders_site_is_a_complete": "Coders Site یک سیستم مدیریت یادگیری مبتنی بر Django و Python است که بخش‌های دوره، احراز هویت و مدیریت محتوا را در یک پلتفرم جمع می‌کند.",
             "projects.coders.live_screenshots_coders_site":
               "تصاویر زنده / CODERS SITE",
@@ -8451,7 +8463,7 @@
             /* ── projects.astro ── */
             "projects.astro.02_real_project": "02 / پروژه",
             "projects.astro.machine_learning": "Machine Learning",
-            "projects.astro.an_astronomical_seeing_prediction_fr": "یک پروژه‌ی یادگیری ماشین برای پیش‌بینی Seeing نجومی با استفاده از XGBoost.",
+            "projects.astro.an_astronomical_seeing_prediction_fr": "یک پروژه‌ی یادگیری ماشین برای پیش‌بینی Seeing نجومی با استفاده از XGBoost",
             "projects.astro.astroseeingai_is_a_machine_learning": "AstroSeeingAI یک پروژه‌ی یادگیری ماشین برای پیش‌بینی Seeing نجومی با استفاده از داده‌های هواشناسی و مدل XGBoost است.",
             "projects.astro.results_panel_astroseeingai":
               "پنل نتایج / ASTROSEEINGAI",
@@ -8562,7 +8574,7 @@
             "projects.fuzzy.03_real_project": "03 / پروژه",
             "projects.fuzzy.ai_health_assessment": "هوش مصنوعی / ارزیابی سلامت",
             "projects.fuzzy.wands_fuzzy_logic": "WANDS / منطق فازی",
-            "projects.fuzzy.a_health_assessment_system_built": "یک سیستم ارزیابی سلامت بر پایه‌ی Python و منطق فازی.",
+            "projects.fuzzy.a_health_assessment_system_built": "یک سیستم ارزیابی سلامت بر پایه‌ی Python و منطق فازی",
             "projects.fuzzy.a_data_driven_health_assessment": "Fuzzy Health یک سیستم ارزیابی سلامت بر پایه‌ی Python، داده‌های BRFSS و منطق فازی است.",
             "projects.fuzzy.assessment_panel_fuzzy_health":
               "پنل ارزیابی / FUZZY HEALTH",
@@ -8660,7 +8672,7 @@
             "projects.fuzzy.fuzzy_logic_3": "منطق فازی",
             "projects.fuzzy.health_assessment_2": "ارزیابی سلامت",
             /* ── closing ── */
-            "closing.ideas_are_easy_to_describe": "ساختن، بخش اصلی کار ماست.",
+            "closing.ideas_are_easy_to_describe": "ساختن، بخش اصلی کار ماست",
             "closing.the_system_still_has_to": "",
             "closing.wands_stays_close_to_architecture": "Wands روی توسعه‌ی راهکارهای نرم‌افزاری واقعی تمرکز دارد؛ از بک‌اند و هوش مصنوعی تا وب، اپلیکیشن و اتوماسیون.",
             "closing.wands_profiles": "اعضای تیم",
@@ -8756,6 +8768,8 @@
             "nav.team": "Team",
             "nav.projects": "Projects",
             "nav.view_projects": "View Projects",
+            "nav.brand_wands": "WANDS",
+            "nav.brand_polaris": "POLARIS",
             /* ── menu ── */
             "menu.polaris_wands_navigation": "WANDS / POLARIS — NAVIGATION",
             "menu.home": "Home",
@@ -8790,7 +8804,7 @@
             "marquee.service_integration": "Service Integration",
             /* ── polaris ── */
             "polaris.one_organization": "What is Polaris?",
-            "polaris.many_technical_disciplines": "One structure for specialized teams to work together.",
+            "polaris.many_technical_disciplines": "One structure for specialized teams to work together",
             "polaris.polaris_brings_software_specialists_": "Polaris brings specialized teams together for project delivery; the team composition and technical stack are shaped by the needs of each project.",
             "polaris.how_it_works": "HOW IT WORKS",
             "polaris.defined_roles_shared_expertise":
@@ -8874,7 +8888,7 @@
             "wands.deliver_usable_result": "Deliver · Usable result",
             "wands.technical_areas": "TECHNICAL AREAS",
             "wands.the_stack_changes_with_the":
-              "The stack changes with the project. These are the areas most representative of Wands.",
+              "The stack changes with the project. These are the areas most representative of Wands",
             "wands.01_backend_systems": "01 · Backend & Systems",
             "wands.server_side_logic_service_boundaries":
               "Server-side logic, service boundaries and architecture that stay understandable as a product grows.",
@@ -8902,7 +8916,7 @@
               "Problem solving, communication, responsibility, teamwork and learning speed matter alongside technical ability. Members should explain decisions, surface problems early and take ownership of usable results.",
             /* ── team ── */
             "team.five_wands": "The Wands Team",
-            "team.each_held_by_a_working": "Specialists with different focuses, working together.",
+            "team.each_held_by_a_working": "Specialists with different focuses, working together",
             "team.the_suit_is_no_longer":
               "The suit is no longer a separate gallery. Each Wands identity sits on the member who carries it, with the card as the primary mark of the profile.",
             "team.xiii_queen_of_wands": "XIII — QUEEN OF WANDS",
@@ -8927,13 +8941,13 @@
             /* ── projects ── */
             "projects.05_real_projects": "05 / PROJECTS",
             "projects.four_products": "Three projects,",
-            "projects.four_different_system_problems": "three different problems.",
+            "projects.four_different_system_problems": "three different problems",
             "projects.coders_site_astroseeingai_learning_c": "A selection of projects designed and developed by Wands members.",
             /* ── projects.coders ── */
             "projects.coders.01_real_project": "01 / PROJECT",
             "projects.coders.learning_platform": "Learning Platform",
             "projects.coders.owner_mohamad_karimi": "OWNER / mohamad-karimi",
-            "projects.coders.a_learning_management_system_built": "A learning management system built with Django and Python.",
+            "projects.coders.a_learning_management_system_built": "A learning management system built with Django and Python",
             "projects.coders.coders_site_is_a_complete": "Coders Site is a Django and Python learning management system that brings courses, authentication, and content management into one platform.",
             "projects.coders.live_screenshots_coders_site":
               "LIVE SCREENSHOTS / CODERS SITE",
@@ -9022,7 +9036,7 @@
             /* ── projects.astro ── */
             "projects.astro.02_real_project": "02 / PROJECT",
             "projects.astro.machine_learning": "Machine Learning",
-            "projects.astro.an_astronomical_seeing_prediction_fr": "A machine learning project for predicting astronomical seeing with XGBoost.",
+            "projects.astro.an_astronomical_seeing_prediction_fr": "A machine learning project for predicting astronomical seeing with XGBoost",
             "projects.astro.astroseeingai_is_a_machine_learning": "AstroSeeingAI is a machine learning project for predicting astronomical seeing using weather data and an XGBoost model.",
             "projects.astro.results_panel_astroseeingai":
               "RESULTS PANEL / ASTROSEEINGAI",
@@ -9135,7 +9149,7 @@
             "projects.fuzzy.03_real_project": "03 / PROJECT",
             "projects.fuzzy.ai_health_assessment": "AI / Health Assessment",
             "projects.fuzzy.wands_fuzzy_logic": "WANDS / FUZZY LOGIC",
-            "projects.fuzzy.a_health_assessment_system_built": "A health assessment system built with Python and fuzzy logic.",
+            "projects.fuzzy.a_health_assessment_system_built": "A health assessment system built with Python and fuzzy logic",
             "projects.fuzzy.a_data_driven_health_assessment": "Fuzzy Health is a health assessment system built with Python, BRFSS data, and fuzzy logic.",
             "projects.fuzzy.assessment_panel_fuzzy_health":
               "ASSESSMENT PANEL / FUZZY HEALTH",
@@ -9238,7 +9252,7 @@
             "projects.fuzzy.fuzzy_logic_3": "Fuzzy Logic",
             "projects.fuzzy.health_assessment_2": "Health Assessment",
             /* ── closing ── */
-            "closing.ideas_are_easy_to_describe": "Building is the work.",
+            "closing.ideas_are_easy_to_describe": "Building is the work",
             "closing.the_system_still_has_to": "",
             "closing.wands_stays_close_to_architecture": "Wands focuses on building practical software solutions across backend, AI, web, applications, and automation.",
             "closing.wands_profiles": "Team members",
@@ -9686,6 +9700,7 @@
           menuButton.setAttribute("aria-expanded", "true");
           syncMenuLabel();
           document.body.classList.add("menu-open");
+          siteNavigation?.classList.remove("is-hidden");
 
           const focusableElements = getMenuFocusableElements();
 
@@ -9869,11 +9884,43 @@
         const scrollTopButton = select(".scroll-to-top");
         let scrollTicking = false;
 
+        /* Hide the header on scroll-down, reveal it on scroll-up, and keep
+           it pinned in place while the user isn't actively scrolling. */
+        let lastScrollY = window.scrollY;
+        const headerHideDirectionThreshold = 4;
+        const headerRevealZone = 24;
+
+        const updateHeaderVisibility = (currentScrollY) => {
+          if (!siteNavigation) {
+            return;
+          }
+
+          const isMenuOpen = mobileMenu?.classList.contains("is-open");
+
+          if (isMenuOpen || currentScrollY <= headerRevealZone) {
+            siteNavigation.classList.remove("is-hidden");
+            return;
+          }
+
+          const scrollDelta = currentScrollY - lastScrollY;
+
+          if (scrollDelta > headerHideDirectionThreshold) {
+            siteNavigation.classList.add("is-hidden");
+          } else if (scrollDelta < -headerHideDirectionThreshold) {
+            siteNavigation.classList.remove("is-hidden");
+          }
+        };
+
         const updateScrollState = () => {
           scrollTicking = false;
           updateActiveNavigation();
 
-          siteNavigation?.classList.toggle("is-scrolled", window.scrollY > 24);
+          const currentScrollY = window.scrollY;
+
+          siteNavigation?.classList.toggle("is-scrolled", currentScrollY > 24);
+          updateHeaderVisibility(currentScrollY);
+
+          lastScrollY = currentScrollY;
 
           const scrollableHeight =
             document.documentElement.scrollHeight - window.innerHeight;
@@ -10586,6 +10633,10 @@ button:active, a:active { transform: translateY(0); }
 
 /* Language switch: visible without changing the original navigation structure. */
 .site-nav { position: relative; z-index: 50; }
+/* RTL (Persian): the nav is centred with left:50% + translateX(-50%). With
+   position:relative that math only works in LTR; in RTL it pushed the whole
+   header (logo included) off the right edge on wide screens. Mirror it. */
+html[dir="rtl"] .site-nav { left: auto; right: 50%; transform: translateX(50%); }
 .nav-tools { position: relative; z-index: 60; }
 .lang-switch {
   position: relative !important;
@@ -10745,6 +10796,43 @@ button:active, a:active { transform: translateY(0); }
     justify-self: center !important;
     text-align: center !important;
   }
+}
+</style>
+<style id="wands-header-scroll-fix">
+/* Header show/hide on scroll — final override.
+   A later "final repair" stylesheet in this document forces the header
+   to `position: relative` and rewrites its `transform` in RTL mode,
+   which silently cancelled the scroll-hide animation. These rules are
+   placed last and use !important so the fixed, centered, hide/show
+   header behaviour always wins regardless of the direction (RTL/LTR). */
+.site-nav {
+  position: fixed !important;
+  top: 16px !important;
+  left: 50% !important;
+  right: auto !important;
+  z-index: 8000 !important;
+  --nav-x: -50%;
+  --nav-y: 0%;
+  transform: translateX(var(--nav-x)) translateY(var(--nav-y)) !important;
+  opacity: 1;
+  transition:
+    background var(--transition-medium),
+    border-color var(--transition-medium),
+    box-shadow var(--transition-medium),
+    transform var(--transition-medium),
+    opacity var(--transition-medium) !important;
+}
+
+html[dir="rtl"] .site-nav {
+  left: auto !important;
+  right: 50% !important;
+  --nav-x: 50%;
+}
+
+.site-nav.is-hidden {
+  --nav-y: -140%;
+  opacity: 0;
+  pointer-events: none;
 }
 </style>
 </body>
